@@ -1,44 +1,44 @@
-# Project Implementation Plan: RISC-V Assembly Routines
-
-## Component 1: Unsigned Multiplication
+## Part 1: Unsigned Multiplication
 
 ### Objective
-Develop an assembly routine to multiply two unsigned 32-bit numbers using the RISC-V RV32I ISA. The system must output the lower 32 least significant bits of the product.
-
-### Implementation Requirements
-The routine must rely solely on instructions present in the provided RV32I reference sheet. The use of multiplication extensions (mul, mulh, muls, mulu) is prohibited. Additionally, the use of pseudoinstructions such as mv or ret is not permitted.
+Develop an assembly routine without the use of multiplication and pseudoinstructions to multiply two unsigned 32-bit numbers using the RISC-V RV32I ISA. The system must output the lower 32 least significant bits of the product.
 
 ### Algorithm
-The implementation must optimize for execution speed and compactness. A linear time complexity solution (repeated addition) is not acceptable. The routine must implement a shift-and-add algorithm (or equivalent logarithmic complexity method) to perform the calculation efficiently.
+The implementation optimized for execution speed and compactness. The routine implemented a shift-and-add algorithm to perform the calculation efficiently.
 
 ### Output
-The final 32-bit result must be stored in the designated memory word c.
+The final 32-bit result was stored in the designated memory word c.
 
 ---
 
-## Component 2: Sobel Operator
+## Part 2: Sobel Operator
 
 ### Objective
-Develop an assembly routine to apply the Sobel operator to a 5x5 matrix of signed 32-bit numbers using the RV32I ISA. This operation approximates derivatives for horizontal and vertical changes in image processing by performing convolutions with specific kernels.
+Developed an assembly routine to apply the Sobel operator to a 5x5 matrix of signed 32-bit numbers using the RV32I ISA. This operation approximates derivatives for horizontal and vertical changes in image processing by performing convolutions with specific kernels.
 
 ### Kernel Definitions
-The process requires two 3x3 kernels, Gx and Gy, defined as follows:
-
-Gx =
-[ -1  0 +1 ]
-[ -2  0 +2 ]
-[ -1  0 +1 ]
-
-Gy =
-[ -1 -2 -1 ]
-[  0  0  0 ]
-[ +1 +2 +1 ]
+$$
+G_x = 
+\begin{bmatrix} 
+-1 & 0 & +1 \\ 
+-2 & 0 & +2 \\ 
+-1 & 0 & +1 
+\end{bmatrix}
+$$
+$$
+G_y = 
+\begin{bmatrix} 
+-1 & -2 & -1 \\ 
+0 & 0 & 0 \\ 
++1 & +2 & +1 
+\end{bmatrix}
+$$
 
 ### Convolution Process
 The convolution involves sweeping a 3x3 kernel across the 5x5 source matrix with a stride of 1.
 
 1. Select a 3x3 window from the source matrix.
-2. Perform element-wise multiplication between the source window and the kernel.
+2. Perform multiplication between the source window and the kernel.
 3. Sum the resulting values to generate a single output element.
 4. Shift the window by the stride and repeat until the entire matrix is processed.
 
@@ -49,7 +49,7 @@ The Sobel filter requires the convolution of the source matrix with both Gx and 
 
 Add the output matrix from the Gx convolution to the output matrix from the Gy convolution element-wise.
 
-C_final[row][col] = Result_Gx[row][col] + Result_Gy[row][col]
+$C_{final}[row][col] = Result_{Gx}[row][col] + Result_{Gy}[row][col]$
 
 ### Output
 The resulting 3x3 matrix must be stored in the memory word array c.
